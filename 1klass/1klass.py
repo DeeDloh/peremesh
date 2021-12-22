@@ -82,6 +82,9 @@ def start_screen():
 
 def load_level(filename):
     filename = "data/" + filename
+    if not os.path.isfile(filename):
+        print(f"Файл с уровнем не найден")
+        sys.exit()
     with open(filename, 'r') as mapFile:
         level_map = [line.strip() for line in mapFile]
     max_width = max(map(len, level_map))
@@ -121,6 +124,7 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption('Перемещение героя')
     clock = pygame.time.Clock()
+    start_screen()
 
     tile_images = {
         'wall': load_image('box.png'),
@@ -136,8 +140,9 @@ if __name__ == '__main__':
     all_sprites = pygame.sprite.Group()
     tiles_group = pygame.sprite.Group()
     player_group = pygame.sprite.Group()
-    start_screen()
-    level = load_level('uroven.txt')
+
+    level_f = input()
+    level = load_level(level_f)
     player, level_x, level_y = generate_level(level)
 
     while running:
